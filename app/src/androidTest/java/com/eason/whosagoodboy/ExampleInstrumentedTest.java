@@ -1,4 +1,4 @@
-package com.project.eason.whosagoodboy;
+package com.eason.whosagoodboy;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

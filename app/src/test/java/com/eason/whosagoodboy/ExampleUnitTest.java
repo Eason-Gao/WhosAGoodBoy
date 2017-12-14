@@ -1,4 +1,4 @@
-package com.project.eason.whosagoodboy;
+package com.eason.whosagoodboy;
 
 import org.junit.Test;
 
