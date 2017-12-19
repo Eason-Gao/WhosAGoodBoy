@@ -5,7 +5,11 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
+import android.support.annotation.NonNull;
+
+import com.eason.whosagoodboy.db.Converters;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -19,11 +23,12 @@ import java.util.UUID;
 @Entity(tableName = "dog",
 		indices = {@Index(value = {"dog_id"},
 				unique = true)})
-
+@TypeConverters({Converters.class})
 public class Dog implements Serializable
 {
 	@PrimaryKey
 	@ColumnInfo(name = "dog_id")
+	@NonNull
 	private String id;
 
 	@ColumnInfo(name = "dog_breed")
@@ -59,10 +64,5 @@ public class Dog implements Serializable
 	public void setDogBreed(String dogBreed)
 	{
 		this.dogBreed = dogBreed;
-	}
-
-	public Date getDiscoveryDate()
-	{
-		return discoveryDate;
 	}
 }

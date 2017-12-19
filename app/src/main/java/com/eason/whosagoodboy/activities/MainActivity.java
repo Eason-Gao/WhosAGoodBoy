@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.eason.whosagoodboy.WhosAGoodBoy;
 import com.eason.whosagoodboy.whosagoodboy.R;
 
 import butterknife.BindView;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    ((WhosAGoodBoy) getApplication()).getAppComponent().inject(this);
     ButterKnife.bind(this);
 
     permissionCheck();
@@ -49,7 +51,6 @@ public class MainActivity extends AppCompatActivity
       requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
     }
   }
-
 
   @OnClick(R.id.scan_button)
   public void onClickScan()
