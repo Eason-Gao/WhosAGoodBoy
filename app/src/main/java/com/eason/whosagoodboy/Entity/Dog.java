@@ -6,7 +6,6 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.eason.whosagoodboy.db.Converters;
@@ -21,48 +20,63 @@ import java.util.UUID;
  */
 
 @Entity(tableName = "dog",
-		indices = {@Index(value = {"dog_id"},
-				unique = true)})
+    indices = {@Index(value = {"dog_id"},
+	unique = true)})
 @TypeConverters({Converters.class})
 public class Dog implements Serializable
 {
-	@PrimaryKey
-	@ColumnInfo(name = "dog_id")
-	@NonNull
-	private String id;
+  @PrimaryKey
+  @ColumnInfo(name = "dog_id")
+  @NonNull
+  private String id;
 
-	@ColumnInfo(name = "dog_breed")
-	private String dogBreed;
+  @ColumnInfo(name = "dog_breed")
+  private String dogBreed;
 
-	@ColumnInfo(name = "discovery_date")
-	private Date discoveryDate;
+  @ColumnInfo(name = "discovery_date")
+  private Date discoveryDate;
 
-	@Ignore
-	public Dog()
-	{
-		super();
+  @Ignore
+  public Dog(){
 
-		id = UUID.randomUUID().toString();
-		discoveryDate = Calendar.getInstance().getTime();
-	}
+  }
 
-	public String getId()
-	{
-		return id;
-	}
+  public Dog(String id, String dogBreed, Date discoveryDate)
+  {
+    super();
 
-	public void setId(String id)
-	{
-		this.id = id;
-	}
+    id = UUID.randomUUID().toString();
+    this.dogBreed = dogBreed;
+    discoveryDate = Calendar.getInstance().getTime();
+  }
 
-	public String getDogBreed()
-	{
-		return dogBreed;
-	}
+  public String getId()
+  {
+    return id;
+  }
 
-	public void setDogBreed(String dogBreed)
-	{
-		this.dogBreed = dogBreed;
-	}
+  public void setId(String id)
+  {
+    this.id = id;
+  }
+
+  public String getDogBreed()
+  {
+    return dogBreed;
+  }
+
+  public void setDogBreed(String dogBreed)
+  {
+    this.dogBreed = dogBreed;
+  }
+
+  public Date getDiscoveryDate()
+  {
+    return discoveryDate;
+  }
+
+  public void setDiscoveryDate(Date discoveryDate)
+  {
+    this.discoveryDate = discoveryDate;
+  }
 }
