@@ -6,10 +6,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.eason.whosagoodboy.WhosAGoodBoy;
 import com.eason.whosagoodboy.whosagoodboy.R;

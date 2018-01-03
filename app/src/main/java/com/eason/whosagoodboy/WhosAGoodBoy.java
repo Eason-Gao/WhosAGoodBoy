@@ -3,23 +3,32 @@ package com.eason.whosagoodboy;
 import android.app.Application;
 
 import com.eason.whosagoodboy.Components.AppComponent;
+import com.eason.whosagoodboy.Components.DaggerAppComponent;
 
 /**
- * Created by student01 on 19/12/17.
+ * Application Class
  */
 
 public class WhosAGoodBoy extends Application
 {
-	private AppComponent appComponent;
+  private AppComponent appComponent;
 
-	public AppComponent getAppComponent()
-	{
-		return appComponent;
-	}
+  @Override
+  public void onCreate()
+  {
+    super.onCreate();
 
-	@Override
-	public void onCreate()
-	{
-		super.onCreate();
-	}
+    /* set up dependency injection */
+    createAppComponent();
+  }
+
+  private void createAppComponent()
+  {
+    appComponent = DaggerAppComponent.builder().build();
+  }
+
+  public AppComponent getAppComponent()
+  {
+    return appComponent;
+  }
 }
