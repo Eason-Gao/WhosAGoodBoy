@@ -7,14 +7,30 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.eason.whosagoodboy.WhosAGoodBoy;
+import com.eason.whosagoodboy.db.Constants;
+import com.eason.whosagoodboy.utils.TransferUtils;
 import com.eason.whosagoodboy.whosagoodboy.R;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.internal.Util;
 
 /**
  * Main Activity
@@ -30,6 +46,12 @@ public class MainActivity extends AppCompatActivity
 
   private static final int MY_CAMERA_REQUEST_CODE = 100;
 
+  private AmazonS3Client s3;
+
+  private TransferUtility transferUtility;
+
+  private File imageFile;
+
   @Override
   public void onCreate(Bundle savedInstanceState)
   {
@@ -40,7 +62,33 @@ public class MainActivity extends AppCompatActivity
     ButterKnife.bind(this);
 
     permissionCheck();
+
+    transferUtility = TransferUtils.getTransferUtility(this);
+
+    setupAmazonCredentials();
   }
+
+
+  public void setupAmazonCredentials(){
+
+    // Initialize the Amazon Cognito credentials provider
+    CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+        getApplicationContext(),
+        "us-east-1:e9e6ae91-14e0-4e96-8a72-75e474462b92",
+    Regions.US_EAST_1 // Region
+    );
+
+    setAmazonS3Client(credentialsProvider);
+  }
+
+  public void setAmazonS3Client(CognitoCachingCredentialsProvider credentialsProvider){
+
+    // Create S3 client
+    s3 = new AmazonS3Client(credentialsProvider);
+
+    s3.setRegion(Region.getRegion(Regions.US_EAST_1));
+  }
+
 
   private void permissionCheck()
   {
@@ -59,13 +107,59 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
+  @OnClick(R.id.upload_button)
+  public void onClickUpload()
+  {
+    setTransferUtility();
+    beginUpload();
+  }
+
+
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data)
   {
     if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
       Bundle extras = data.getExtras();
       Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+      convertToFile(imageBitmap, "testmap");
+
       returnImage.setImageBitmap(imageBitmap);
+    }
+  }
+
+  public void setTransferUtility(){
+
+    transferUtility = new TransferUtility(s3, getApplicationContext());
+  }
+
+  private void beginUpload() {
+
+    TransferObserver observer = transferUtility.upload(Constants.BUCKET_NAME, "test file",
+	imageFile);
+        /*
+         * Note that usually we set the transfer listener after initializing the
+         * transfer. However it isn't required in this sample app. The flow is
+         * click upload button -> start an activity for image selection
+         * startActivityForResult -> onActivityResult -> beginUpload -> onResume
+         * -> set listeners to in progress transfers.
+         */
+    // observer.setTransferListener(new UploadListener());
+  }
+
+  private void convertToFile(Bitmap bitmap, String name)
+  {
+    File filesDir = getApplication().getFilesDir();
+    imageFile = new File(filesDir, name + ".jpg");
+
+    OutputStream os;
+    try {
+      os = new FileOutputStream(imageFile);
+      bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+      os.flush();
+      os.close();
+    } catch (Exception e) {
+      Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
     }
   }
 
