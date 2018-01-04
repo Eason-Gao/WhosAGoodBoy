@@ -30,7 +30,6 @@ import java.io.OutputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.internal.Util;
 
 /**
  * Main Activity
@@ -65,29 +64,16 @@ public class MainActivity extends AppCompatActivity
 
     transferUtility = TransferUtils.getTransferUtility(this);
 
-    setupAmazonCredentials();
+//    setupAmazonCredentials();
   }
 
-
-  public void setupAmazonCredentials(){
-
-    // Initialize the Amazon Cognito credentials provider
-    CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
-        getApplicationContext(),
-        "us-east-1:e9e6ae91-14e0-4e96-8a72-75e474462b92",
-    Regions.US_EAST_1 // Region
-    );
-
-    setAmazonS3Client(credentialsProvider);
-  }
-
-  public void setAmazonS3Client(CognitoCachingCredentialsProvider credentialsProvider){
-
-    // Create S3 client
-    s3 = new AmazonS3Client(credentialsProvider);
-
-    s3.setRegion(Region.getRegion(Regions.US_EAST_1));
-  }
+//  public void setAmazonS3Client(CognitoCachingCredentialsProvider credentialsProvider){
+//
+//    // Create S3 client
+//    s3 = new AmazonS3Client(credentialsProvider);
+//
+//    s3.setRegion(Region.getRegion(Regions.US_EAST_1));
+//  }
 
 
   private void permissionCheck()
@@ -96,6 +82,11 @@ public class MainActivity extends AppCompatActivity
     {
       requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
     }
+
+//    if (checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE != PackageManager.PERMISSION_GRANTED))
+//    {
+//      requestPermissions(new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, MY_N);
+//    }
   }
 
   @OnClick(R.id.scan_button)
@@ -110,7 +101,7 @@ public class MainActivity extends AppCompatActivity
   @OnClick(R.id.upload_button)
   public void onClickUpload()
   {
-    setTransferUtility();
+//    setTransferUtility();
     beginUpload();
   }
 
@@ -128,10 +119,10 @@ public class MainActivity extends AppCompatActivity
     }
   }
 
-  public void setTransferUtility(){
-
-    transferUtility = new TransferUtility(s3, getApplicationContext());
-  }
+//  public void setTransferUtility(){
+//
+//    transferUtility = new TransferUtility(s3, getApplicationContext());
+//  }
 
   private void beginUpload() {
 
