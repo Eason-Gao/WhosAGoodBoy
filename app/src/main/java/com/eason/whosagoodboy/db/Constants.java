@@ -1,7 +1,5 @@
 package com.eason.whosagoodboy.db;
 
-import com.amazonaws.regions.Regions;
-
 /**
  * amazon AWS access credentials
  */
@@ -15,4 +13,8 @@ public class Constants
   public static final String BUCKET_NAME = "whosagoodboy";
 
   public static final String BUCKET_REGION = "us-east-1";
+
+  public static final String AWS_ACCESS_KEY = "AKIAJBUXQSZE6A6CEIQA";
+
+  public static final String AWS_SECRET_KEY = "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";
 }

@@ -8,15 +8,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.eason.whosagoodboy.WhosAGoodBoy;
 import com.eason.whosagoodboy.db.Constants;
@@ -64,17 +59,7 @@ public class MainActivity extends AppCompatActivity
 
     transferUtility = TransferUtils.getTransferUtility(this);
 
-//    setupAmazonCredentials();
   }
-
-//  public void setAmazonS3Client(CognitoCachingCredentialsProvider credentialsProvider){
-//
-//    // Create S3 client
-//    s3 = new AmazonS3Client(credentialsProvider);
-//
-//    s3.setRegion(Region.getRegion(Regions.US_EAST_1));
-//  }
-
 
   private void permissionCheck()
   {
@@ -82,11 +67,6 @@ public class MainActivity extends AppCompatActivity
     {
       requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
     }
-
-//    if (checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE != PackageManager.PERMISSION_GRANTED))
-//    {
-//      requestPermissions(new String[]{Manifest.permission.ACCESS_NETWORK_STATE}, MY_N);
-//    }
   }
 
   @OnClick(R.id.scan_button)
@@ -101,7 +81,6 @@ public class MainActivity extends AppCompatActivity
   @OnClick(R.id.upload_button)
   public void onClickUpload()
   {
-//    setTransferUtility();
     beginUpload();
   }
 
@@ -118,11 +97,6 @@ public class MainActivity extends AppCompatActivity
       returnImage.setImageBitmap(imageBitmap);
     }
   }
-
-//  public void setTransferUtility(){
-//
-//    transferUtility = new TransferUtility(s3, getApplicationContext());
-//  }
 
   private void beginUpload() {
 
