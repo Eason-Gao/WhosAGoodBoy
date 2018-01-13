@@ -16,7 +16,6 @@ import com.eason.whosagoodboy.db.Constants;
 public class RekognitionUtils
 {
   private static AmazonRekognitionClient rekognitionClient;
-  private static AWSCredentialsProvider credentialsProvider;
 
   public static AmazonRekognitionClient getRekognitionClient(Context context) {
     if (rekognitionClient == null) {
