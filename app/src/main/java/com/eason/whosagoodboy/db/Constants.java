@@ -14,7 +14,7 @@ public class Constants
 
   public static final String BUCKET_REGION = "us-east-1";
 
-  public static final String AWS_ACCESS_KEY = "AKIAJBUXQSZE6A6CEIQA";
+  public static final String AWS_ACCESS_KEY = "AKIAIWYAFG56RBOSTCWQ";
 
-  public static final String AWS_SECRET_KEY = "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";
+  public static final String AWS_SECRET_KEY = "D80yT+hK1S607syPdz4Y4GlG1KvDtEZdJBLCQl1e";
 }

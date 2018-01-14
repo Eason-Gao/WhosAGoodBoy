@@ -4,24 +4,27 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.eason.whosagoodboy.WhosAGoodBoy;
+import com.eason.whosagoodboy.db.AsyncTasks.DogAsyncTask;
+import com.eason.whosagoodboy.db.AsyncTasks.RekognitionAsyncTask;
 import com.eason.whosagoodboy.db.Constants;
+import com.eason.whosagoodboy.utils.DataSyncType;
+import com.eason.whosagoodboy.utils.FileUtils;
 import com.eason.whosagoodboy.utils.TransferUtils;
+import com.eason.whosagoodboy.utils.awsutils.DetectLabelsUtils;
+import com.eason.whosagoodboy.utils.awsutils.RekognitionUtils;
 import com.eason.whosagoodboy.whosagoodboy.R;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity
   private TransferUtility transferUtility;
 
   private File imageFile;
+
+  private RekognitionAsyncTask rekognitionAsyncTask;
 
   @Override
   public void onCreate(Bundle savedInstanceState)
@@ -92,7 +97,10 @@ public class MainActivity extends AppCompatActivity
       Bundle extras = data.getExtras();
       Bitmap imageBitmap = (Bitmap) extras.get("data");
 
-      convertToFile(imageBitmap, "testmap");
+      imageFile = FileUtils.convertBitMapToFile(this, imageBitmap, "test image");
+
+      RekognitionAsyncTask newRekognitionAsyncTask = new RekognitionAsyncTask(this, DataSyncType.INSERT);
+      newRekognitionAsyncTask.execute(imageFile);
 
       returnImage.setImageBitmap(imageBitmap);
     }
@@ -111,21 +119,4 @@ public class MainActivity extends AppCompatActivity
          */
     // observer.setTransferListener(new UploadListener());
   }
-
-  private void convertToFile(Bitmap bitmap, String name)
-  {
-    File filesDir = getApplication().getFilesDir();
-    imageFile = new File(filesDir, name + ".jpg");
-
-    OutputStream os;
-    try {
-      os = new FileOutputStream(imageFile);
-      bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
-      os.flush();
-      os.close();
-    } catch (Exception e) {
-      Log.e(getClass().getSimpleName(), "Error writing bitmap", e);
-    }
-  }
-
 }
