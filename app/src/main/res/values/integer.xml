@@ -1,0 +1,4 @@
+<resources>
+    <integer name="REQUEST_IMAGE_CAPTURE">1</integer>
+    <integer name="MY_CAMERA_REQUEST_CODE">100</integer>
+</resources>

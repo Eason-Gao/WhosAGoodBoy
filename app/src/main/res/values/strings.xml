@@ -2,7 +2,7 @@
     <string name="app_name">WhosAGoodBoy</string>
 
     <!-- Descriptions -->
-    <string name="main_description">Hey there! To identify a good boy, simply take a picture or choose a photo from your gallery</string>
+    <string name="main_description">Hey there! To identify a good boy, simply take a picture or choose one from your gallery</string>
     <string name="action_settings">Settings</string>
 
     <!-- Splash -->
