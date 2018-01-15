@@ -1,15 +1,9 @@
 package com.eason.whosagoodboy.utils.awsutils;
 
-import android.content.Context;
-
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.securitytoken.AWSSecurityTokenServiceClient;
-import com.amazonaws.services.securitytoken.model.Credentials;
 import com.eason.whosagoodboy.db.Constants;
-
-import io.reactivex.CompletableOnSubscribe;
 
 /**
  * util class for AWS Credentials
@@ -17,7 +11,7 @@ import io.reactivex.CompletableOnSubscribe;
 
 public class AWSCredentialsUtils
 {
-  public static AWSCredentials createAWSCredentials(Context context)
+  public static AWSCredentials createAWSCredentials()
   {
     try {
       return new BasicAWSCredentials(Constants.AWS_ACCESS_KEY, Constants.AWS_SECRET_KEY);

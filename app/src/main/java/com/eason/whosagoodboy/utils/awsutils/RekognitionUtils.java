@@ -17,7 +17,7 @@ public class RekognitionUtils
 
   public static AmazonRekognitionClient getRekognitionClient(Context context) {
     if (rekognitionClient == null) {
-      rekognitionClient = new AmazonRekognitionClient(AWSCredentialsUtils.createAWSCredentials(context));
+      rekognitionClient = new AmazonRekognitionClient(AWSCredentialsUtils.createAWSCredentials());
       rekognitionClient.setRegion((Region.getRegion(Regions.fromName(Constants.BUCKET_REGION))));
       return rekognitionClient;
     } else {

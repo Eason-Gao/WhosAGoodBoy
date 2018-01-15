@@ -11,7 +11,6 @@ import android.widget.ImageView;
 
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.eason.whosagoodboy.WhosAGoodBoy;
 import com.eason.whosagoodboy.db.AsyncTasks.RekognitionAsyncTask;
 import com.eason.whosagoodboy.db.Constants;
@@ -57,6 +56,7 @@ public class MainActivity extends AppCompatActivity
 
   private void permissionCheck()
   {
+    // checking for camera request
     if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
     {
       requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity
   @OnClick(R.id.scan_button)
   public void onClickScan()
   {
+    // launch default android camera app
     Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
       startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -77,7 +78,6 @@ public class MainActivity extends AppCompatActivity
   {
     beginUpload();
   }
-
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data)

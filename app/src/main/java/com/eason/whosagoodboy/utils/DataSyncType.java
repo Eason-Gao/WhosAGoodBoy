@@ -1,7 +1,7 @@
 package com.eason.whosagoodboy.utils;
 
 /**
- * Created by student01 on 19/12/17.
+ * Data Sync Types
  */
 
 public enum DataSyncType
