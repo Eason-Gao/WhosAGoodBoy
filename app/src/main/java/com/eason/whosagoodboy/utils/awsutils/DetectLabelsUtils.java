@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.amazonaws.services.rekognition.AmazonRekognition;
-import com.amazonaws.services.rekognition.AmazonRekognitionClient;
 import com.amazonaws.services.rekognition.model.DetectLabelsRequest;
 import com.amazonaws.services.rekognition.model.DetectLabelsResult;
 import com.amazonaws.services.rekognition.model.Image;
