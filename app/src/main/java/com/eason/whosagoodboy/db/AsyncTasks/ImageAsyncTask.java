@@ -22,7 +22,7 @@ public class ImageAsyncTask extends AsyncTask<Bitmap, Void, Void>
   private final DataSyncType dataSyncType;
   private final Context context;
 
-  public ImageAsyncTask(DataSyncType dataSyncType, Context context)
+  public ImageAsyncTask(Context context, DataSyncType dataSyncType)
   {
     this.dataSyncType = dataSyncType;
     this.context = context;

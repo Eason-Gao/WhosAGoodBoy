@@ -31,16 +31,14 @@ public class ImageUtils
     // for file naming
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
-    // getting image directory
     String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-    File myDir = new File(root + "/saved_images_1");
+    File myDir = new File(root + "/WhosAGoodBoy");
     myDir.mkdirs();
-    String fileName = "Image-"+ timeStamp;
+
+    String fileName = "Image-" + timeStamp + ".jpg";
     File file = new File(myDir, fileName);
     if (file.exists())
       file.delete();
-
-    //write file
     try {
       FileOutputStream out = new FileOutputStream(file);
       bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -51,9 +49,8 @@ public class ImageUtils
       e.printStackTrace();
     }
 
-    // update gallery so image appears
-    Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-    Uri contentUri = Uri.fromFile(file);
+    final Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+    final Uri contentUri = Uri.fromFile(file);
     scanIntent.setData(contentUri);
     context.sendBroadcast(scanIntent);
   }

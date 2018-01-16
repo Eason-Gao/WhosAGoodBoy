@@ -1,7 +1,6 @@
 package com.eason.whosagoodboy.activities;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -122,7 +121,7 @@ public class SplashActivity extends AppCompatActivity
       Bitmap imageBitmap = (Bitmap) extras.get("data");
 
       //save photo to SD card
-      ImageAsyncTask imageAsyncTask = new ImageAsyncTask(DataSyncType.INSERT, this);
+      ImageAsyncTask imageAsyncTask = new ImageAsyncTask(this, DataSyncType.INSERT);
       imageAsyncTask.execute(imageBitmap);
 
       Toast.makeText(this, "Photo saved to sd card!", Toast.LENGTH_SHORT).show();
