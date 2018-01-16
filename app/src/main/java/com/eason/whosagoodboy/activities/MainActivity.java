@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity
 
   static final int REQUEST_IMAGE_CAPTURE = 1;
 
-
+  private static final int MY_CAMERA_REQUEST_CODE = 100;
 
   private TransferUtility transferUtility;
 
@@ -56,7 +56,11 @@ public class MainActivity extends AppCompatActivity
 
   private void permissionCheck()
   {
-
+    // checking for camera request
+    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
+    {
+      requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
+    }
   }
 
   @OnClick(R.id.scan_button)
