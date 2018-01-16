@@ -1,38 +1,27 @@
 package com.eason.whosagoodboy.activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.media.MediaScannerConnection;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.eason.whosagoodboy.WhosAGoodBoy;
 import com.eason.whosagoodboy.db.AsyncTasks.ImageAsyncTask;
-import com.eason.whosagoodboy.db.AsyncTasks.RekognitionAsyncTask;
 import com.eason.whosagoodboy.utils.DataSyncType;
-import com.eason.whosagoodboy.utils.FileUtils;
-import com.eason.whosagoodboy.utils.ImageUtils;
 import com.eason.whosagoodboy.utils.awsutils.DetectLabelsUtils;
 import com.eason.whosagoodboy.whosagoodboy.R;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
+import java.io.InputStream;
 
 import butterknife.BindInt;
 import butterknife.BindView;
@@ -63,7 +52,12 @@ public class SplashActivity extends AppCompatActivity
   @BindInt(R.integer.MY_STORAGE_REQUEST_CODE)
   int storageRequestCode;
 
+  @BindInt(R.integer.MY_PHOTOS_REQUEST_CODE)
+  int photoRequestCode;
+
   private final static String LOG_TAG = DetectLabelsUtils.class.getSimpleName();
+
+  private Bitmap imageBitmap;
 
   @Override
   public void onCreate(Bundle savedInstanceState)
@@ -113,18 +107,71 @@ public class SplashActivity extends AppCompatActivity
     }
   }
 
+  @OnClick(R.id.import_button)
+  public void onClickImportPhoto()
+  {
+    // launch default gallery app
+    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+    photoPickerIntent.setType("image/*");
+    startActivityForResult(photoPickerIntent, photoRequestCode);
+  }
+
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data)
   {
+    // for camera request
     if (requestCode == requestImageCode && resultCode == RESULT_OK) {
       Bundle extras = data.getExtras();
-      Bitmap imageBitmap = (Bitmap) extras.get("data");
+      imageBitmap = (Bitmap) extras.get("data");
 
       //save photo to SD card
       ImageAsyncTask imageAsyncTask = new ImageAsyncTask(this, DataSyncType.INSERT);
       imageAsyncTask.execute(imageBitmap);
-
-      Toast.makeText(this, "Photo saved to sd card!", Toast.LENGTH_SHORT).show();
     }
+
+    // for gallery request
+    else if (requestCode == photoRequestCode && resultCode == RESULT_OK) {
+      try {
+        final Uri imageUri = data.getData();
+        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+        imageBitmap = BitmapFactory.decodeStream(imageStream);
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
+    }
+
+    detectLabels(imageBitmap);
+  }
+
+  private void detectLabels(Bitmap imageBitmap)
+  {
+    String result = null;
+
+    launchIdentifyBreedActivity(imageBitmap, result);
+  }
+
+  private void launchIdentifyBreedActivity(Bitmap imageBitmap, String result)
+  {
+    try {
+    //Write file
+    String filename = "bitmap.png";
+    FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
+    imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+    //Cleanup
+    stream.close();
+    imageBitmap.recycle();
+
+    //Pop intent
+    Intent in1 = new Intent(this, IdentifyBreedActivity.class);
+    in1.putExtra("image", filename);
+    startActivity(in1);
+  } catch (Exception e) {
+    e.printStackTrace();
+  }
+
+//    Intent intent = new Intent(this, IdentifyBreedActivity.class);
+//    intent.putExtra("user_photo", imageBitmap);
+//    startActivity(intent);
   }
 }

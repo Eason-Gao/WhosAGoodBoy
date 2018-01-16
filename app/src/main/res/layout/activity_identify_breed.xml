@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundLight">
+    
+    <ImageView
+        android:id="@+id/user_photo"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:scaleType="centerCrop"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/user_photo"
+        android:background="@color/backgroundDark">
+
+        <TextView
+            android:id="@+id/result_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_medium"
+            android:layout_marginTop="50dp"
+            android:textSize="@dimen/subheading_text_size"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_centerHorizontal="true"
+            android:text="this goodboy's breed is"/>
+
+        <TextView
+            android:id="@+id/result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/paddingTiny"
+            android:paddingHorizontal="@dimen/margin_medium"
+            android:background="@color/primaryColor"
+            android:layout_below="@id/result_description"
+            android:layout_centerHorizontal="true"
+            android:text="Shiba Inu"
+            android:textSize="@dimen/headline_text_size"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
