@@ -1,5 +1,6 @@
 package com.eason.whosagoodboy.utils;
 
+import android.app.Application;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -27,7 +29,7 @@ import java.util.Random;
 public class ImageUtils
 {
 
-  public static void savePhotoToSDCard(Bitmap bitmap, Context context){
+  public static void savePhotoToSDCard(Bitmap bitmap, WeakReference<SplashActivity> context){
     // for file naming
     String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
@@ -52,6 +54,8 @@ public class ImageUtils
     final Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
     final Uri contentUri = Uri.fromFile(file);
     scanIntent.setData(contentUri);
-    context.sendBroadcast(scanIntent);
+
+    // send broadcast using weak reference
+    context.get().sendBroadcast(scanIntent);
   }
 }

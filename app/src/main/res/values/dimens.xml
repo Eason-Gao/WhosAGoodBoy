@@ -11,6 +11,8 @@
     <dimen name="paddingTiny">5dp</dimen>
     <dimen name="margin_small">15dp</dimen>
     <dimen name="margin_medium">35dp</dimen>
+    <dimen name="margin_large">70dp</dimen>
+
 
     <!--main activity-->
     <dimen name="button_margin_top">100dp</dimen>

@@ -9,12 +9,18 @@ import com.amazonaws.services.rekognition.model.DetectLabelsResult;
 import com.amazonaws.services.rekognition.model.Image;
 import com.amazonaws.services.rekognition.model.Label;
 import com.amazonaws.util.IOUtils;
+import com.eason.whosagoodboy.whosagoodboy.R;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.ByteBuffer;
 import java.util.List;
 
@@ -42,6 +48,9 @@ public class DetectLabelsUtils
       for (Label label : labelList) {
 	Log.i(LOG_TAG, String.format("Detected labels for &s", file.getName()));
       }
+
+//      getDogs(labelList, context);
+
     } catch (Exception ex) {
       Log.e(LOG_TAG, String.format("detectLabels() - fileName (breaking here): %s, Exception: %s", file.getName(), ex.getMessage()));
       ex.printStackTrace();
@@ -67,4 +76,23 @@ public class DetectLabelsUtils
 
     return byteBuffer;
   }
+//
+//  private static List<String> getDogs(List<Label> labels, Context context) {
+//
+//    InputStream is = context.getResources().openRawResource(R.raw.dogs);
+//    Writer writer = new StringWriter();
+//    char[] buffer = new char[1024];
+//    try {
+//      Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+//      int n;
+//      while ((n = reader.read(buffer)) != -1) {
+//        writer.write(buffer, 0, n);
+//        is.close();
+//      }
+//    } catch  (Exception ex) {
+//      ex.printStackTrace();
+//    }
+//
+//    String jsonString = writer.toString();
+//  }
 }

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import com.eason.whosagoodboy.WhosAGoodBoy;
 import com.eason.whosagoodboy.db.AsyncTasks.ImageAsyncTask;
 import com.eason.whosagoodboy.utils.DataSyncType;
+import com.eason.whosagoodboy.utils.ImageUtils;
 import com.eason.whosagoodboy.utils.awsutils.DetectLabelsUtils;
 import com.eason.whosagoodboy.whosagoodboy.R;
 
@@ -125,7 +127,7 @@ public class SplashActivity extends AppCompatActivity
       imageBitmap = (Bitmap) extras.get("data");
 
       //save photo to SD card
-      ImageAsyncTask imageAsyncTask = new ImageAsyncTask(this, DataSyncType.INSERT);
+      ImageAsyncTask imageAsyncTask = new ImageAsyncTask(DataSyncType.INSERT, this);
       imageAsyncTask.execute(imageBitmap);
     }
 
@@ -162,16 +164,15 @@ public class SplashActivity extends AppCompatActivity
     stream.close();
     imageBitmap.recycle();
 
-    //Pop intent
-    Intent in1 = new Intent(this, IdentifyBreedActivity.class);
-    in1.putExtra("image", filename);
-    startActivity(in1);
-  } catch (Exception e) {
-    e.printStackTrace();
+    // go to results activity
+//    Intent in1 = new Intent(this, IdentifyBreedActivity.class);
+//    in1.putExtra("image", filename);
+//    startActivity(in1);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
-//    Intent intent = new Intent(this, IdentifyBreedActivity.class);
-//    intent.putExtra("user_photo", imageBitmap);
-//    startActivity(intent);
-  }
+
+
 }

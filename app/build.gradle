@@ -76,4 +76,8 @@ dependencies {
 
     //Amazon Rekognition
     compile 'com.amazonaws:aws-android-sdk-rekognition:2.6.7'
+
+    //Gif Implementation
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
+
 }
